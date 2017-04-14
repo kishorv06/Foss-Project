@@ -124,7 +124,7 @@
             $("input[type=text]").each(function() {
                 //Checks if any input is blank
                 if(this.value != "") {
-                    url += "&"+this.id+"="+encodeURI(this.value);
+                    url += "&"+this.id+"="+this.value;
                     $(this).css("border-bottom-color","");
                 }else{
                     $(this).css("border-bottom-color","red");

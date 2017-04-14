@@ -201,7 +201,7 @@
         
         //Login the user
         function login(){
-            $.get( "backend.php?task=0&uname="+$("#form1").val()+"&password="+encodeURI($("#form2").val()) , function( data ) {
+            $.get( "backend.php?task=0&uname="+$("#form1").val()+"&password="+$("#form2").val() , function( data ) {
                 if(data.status == "OK")
                     document.location.reload();
                 else
@@ -219,16 +219,16 @@
         
         //Save settings
         function save(){
-            url = "backend.php?task=3&name="+encodeURI($("#f1").val())+"&max="+encodeURI($("#f2").val())+"&accept=";
+            url = "backend.php?task=3&name="+$("#f1").val()+"&max="+$("#f2").val()+"&accept=";
             url += ($("#f4").is(':checked'))? "1" : "0";
             if($("#f3").val()==""){
                 $("#error").html("Password Cannot be blank");
                 return;
             }else{
-                url += "&password="+encodeURI($("#f3").val());
+                url += "&password="+$("#f3").val();
             }
             for(i=1;i<=10;i++)
-                url += "&col"+i+"="+encodeURI($("#col"+i).val());
+                url += "&col"+i+"="+$("#col"+i).val();
             $.get( url , function( data ) {
                 if(data.status == "OK")
                     document.location.reload();
