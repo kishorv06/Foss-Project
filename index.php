@@ -39,7 +39,7 @@
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="admin.php">
-                        <h4 class="fa fa-user white-text"></h4>
+                        <h4 class="fa fa-cog white-text"></h4>
                     </a>
                 </li>
             </ul>

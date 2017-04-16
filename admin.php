@@ -55,7 +55,7 @@
                     $content .= '<h2 class="pull-left">Responses</h2><button class="btn btn-primary float-right" onclick="window.open(\'backend.php?task=4\')" ><i class="fa fa-download"></i></button><button class="btn btn-danger float-right" data-toggle="modal" data-target="#delete_modal" ><i class="fa fa-trash"></i></button></div>';
                     if(mysqli_num_rows($result) > 0){
                         $sql = "SELECT ";
-                        $content .= '<br><br><table class="table table-striped"><thead><tr>';
+                        $content .= '<table class="table table-striped"><thead><tr>';
                         while($row = $result->fetch_assoc()){
                             $sql .= "col".$row['id'].",";
                             $content .= "<th>".$row['name']."</th>";

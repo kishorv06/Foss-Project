@@ -64,3 +64,17 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+body{
+	background-color: rgb(117, 117, 117);
+}
+
+.table td, .table th{
+    border-left: 1px solid rgb(202, 206, 208);
+    text-align: center;
+    border-right: 1px solid rgb(202, 206, 208);
+}
+
+.table{
+    margin-top: 10px;
+}
