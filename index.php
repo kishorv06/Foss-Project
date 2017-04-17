@@ -54,17 +54,18 @@
                         $max = $row["max_response"];
                         $accepting = $row["is_accepting"];
                         $result = query("SELECT count(*) FROM Responses");
+                        $registrations = $result->fetch_assoc()["count(*)"];
                         
                         //If max results not reached and is accepting responses, accept. Else print a message.
                         
-                        if ($result->fetch_assoc()["count(*)"] == $max || !$accepting){
+                        if ($registrations == $max || !$accepting){
                             //Error Message
                             $content = '<div class="col-md-12 text-center"><img src="img/error.png"></img><h4>Sorry, we are not accepting any responses.</h4></center></div>';
                         }else{
                             //Selecting actiev fields
                             $result = query("SELECT * FROM Fields WHERE NOT (name = '')");
                             $i = 1;
-                            $content = '<h2>Registration Form</h2><hr><br><div class="row">';
+                            $content = '<h2>Registration Form</h2><h6 class="float-right"> Seats remaining : '.($max-$registrations).'</h6><br><hr><div class="row">';
                             while($row = $result->fetch_assoc()) {
                                 $content .='<div class="col-md-6"><div class="md-form"><input type="text" id="col'.$i.'" class="form-control"><label for="col'.$i.'">'.$row['name'].'</label></div></div>';
                                 $i += 1;
@@ -143,7 +144,10 @@
             //Upload the data
             $.get( url , function( data ) {
                 if(data.status == "OK"){
-                    $("#success").html("Response Submitted.");   
+                    $("#success").html("Response Submitted.");
+                    window.setTimeout(function(){
+                        document.location.reload();
+                    },2000);  
                 }
             }, "json" );
         }

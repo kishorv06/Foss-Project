@@ -84,5 +84,17 @@
         query($sql);
         echo '{"status":"OK"}';
     }
+    else if($task == 6){
+        //Delete a row
+        if(isLogged()){
+            $id = $_REQUEST['id'];
+            $result = query("DELETE FROM Responses WHERE id = ".$id);
+            if($result){
+                echo '{"status":"OK"}';
+            }else{
+                echo '{"status":"Error"}';
+            }
+        }
+    }
 
 ?>

@@ -52,15 +52,15 @@
                     //Get the list of active fields
                     $result = query("SELECT * FROM Fields WHERE NOT (name = '')");
                     $content  = '<div class="jumbotron col-md-10 offset-md-1" style="margin-top: 30px;"><div class="row"><div class="col-md-12">';
-                    $content .= '<h2 class="pull-left">Responses</h2><button class="btn btn-primary float-right" onclick="window.open(\'backend.php?task=4\')" ><i class="fa fa-download"></i></button><button class="btn btn-danger float-right" data-toggle="modal" data-target="#delete_modal" ><i class="fa fa-trash"></i></button></div>';
+                    $content .= '<h2 class="pull-left">Responses</h2><button class="btn btn-primary float-right" onclick="window.open(\'backend.php?task=4\')" ><i class="fa fa-download"></i></button><button class="btn btn-danger float-right" data-toggle="modal" data-target="#delete_modal" ><i class="fa fa-refresh"></i></button></div>';
                     if(mysqli_num_rows($result) > 0){
-                        $sql = "SELECT ";
-                        $content .= '<table class="table table-striped"><thead><tr>';
+                        $sql = "SELECT id,";
+                        $content .= '<table class="table table-striped"><thead><tr><th>ID</th>';
                         while($row = $result->fetch_assoc()){
                             $sql .= "col".$row['id'].",";
                             $content .= "<th>".$row['name']."</th>";
                         }
-                        $content .= '<th>Timestamp</th></tr></thead><tbody>';
+                        $content .= '<th>Timestamp</th><th>Actions</th></tr></thead><tbody>';
                         $sql .= " time FROM Responses";
                         //Get responses
                         $result = query($sql);
@@ -69,7 +69,7 @@
                             foreach($row as $key => $value) {
                                 $content .= '<td>'.$value.'</td>';   
                             }
-                            $content .= "</tr>";
+                            $content .= "<td><a onclick='deleteRow(".$row['id'].",false)'><i class='fa fa-trash'></i></a></td></tr>";
                         }
                         $content .= "</tbody></table>";
                         
@@ -175,12 +175,36 @@
                 </div>
                 <!--Body-->
                 <div class="modal-body">
-                    <h6>Delete all responses ? You cannot undo this action.</h6>
+                    <h6>Reset event ? This will permanently delete all responses. </h6>
                 </div>
                 <!--Footer-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                     <button type="button" class="btn btn-danger" onclick="delRes()">Yes</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <div class="modal fade" id="deleteRow" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Warning</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <h6>Delete responses ? You cannot undo this action.</h6>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger"data-dismiss="modal" id="deleteRowConfirm" onClick="">Yes</button>
                 </div>
             </div>
             <!--/.Content-->
@@ -235,6 +259,20 @@
             }, "json" );
         }
         
+        //Delete a single response
+        function deleteRow(id,confirmed){
+            if(confirmed){
+                $.get( "backend.php?task=6&id="+id , function( data ) {
+                    if(data.status == "OK")
+                        document.location.reload();
+                }, "json" );
+            }else{
+                rowID = id;
+                $("#deleteRowConfirm").attr("onClick","deleteRow("+id+",true)");
+                $('#deleteRow').modal('show');   
+            }   
+        }
+        
     </script>
 </body>
-</html>l>
+</html>
